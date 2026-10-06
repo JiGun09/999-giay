@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>쿠팡! - 오늘의 발견</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --cp-red: #E31A22;
+      --cp-blue: #0073E9;
+      --cp-dark: #0B0E14;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+      background-color: #FFFFFF;
+      color: #111111;
+      overflow-x: hidden;
+    }
+
+    /* =========================================
+       1. MINIMAL COUPANG HEADER
+       ========================================= */
+    .coupang-top-header {
+      background: #FFFFFF;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #EAEAEA;
+    }
+
+    .top-search-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 14px;
+      gap: 12px;
+    }
+
+    .cp-logo-text {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--cp-red);
+      letter-spacing: -1px;
+      text-decoration: none;
+    }
+
+    .cp-search-bar {
+      flex: 1;
+      position: relative;
+    }
+
+    .cp-search-bar input {
+      width: 100%;
+      height: 38px;
+      border: 2px solid var(--cp-red);
+      border-radius: 6px;
+      padding: 0 34px 0 12px;
+      font-size: 13px;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .cp-search-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+    }
+
+    /* =========================================
+       2. PREMIUM FULL-FOCUS AD BANNER (TEST A)
+       ========================================= */
+    .banner-wrapper {
+      padding: 14px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cp-premium-card {
+      position: relative;
+      width: 100%;
+      height: 520px;
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      background: radial-gradient(circle at 75% 30%, #2A3346 0%, #121722 60%, #080A0F 100%);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 28px 22px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cp-premium-card:active {
+      transform: scale(0.985);
+    }
+
+    /* Top Brand & Title Area */
+    .banner-header-area {
+      position: relative;
+      z-index: 3;
+    }
+
+    .brand-pill {
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 900;
+      color: #90CAF9;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .product-model-name {
+      font-size: 28px;
+      font-weight: 900;
+      color: #FFFFFF;
+      letter-spacing: -1px;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+    }
+
+    /* Test A Gain Message (Thông điệp "Được") */
+    .gain-headline-box {
+      background: rgba(255, 255, 255, 0.08);
+      border-left: 3px solid #FFD54F;
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      backdrop-filter: blur(8px);
+      max-width: 85%;
+    }
+
+    .gain-main-copy {
+      font-size: 17px;
+      font-weight: 800;
+      color: #FFD54F;
+      line-height: 1.4;
+      letter-spacing: -0.4px;
+      word-break: keep-all;
+    }
+
+    .gain-sub-copy {
+      font-size: 12px;
+      font-weight: 400;
+      color: #E0E6ED;
+      margin-top: 4px;
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+
+    /* High-Resolution Chunky Liner Shoe Visual */
+    .shoe-visual-container {
+      position: absolute;
+      right: -20px;
+      bottom: 70px;
+      width: 320px;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .shoe-hd-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform: rotate(-8deg);
+      filter: drop-shadow(0 18px 30px rgba(0,0,0,0.75));
+      transition: transform 0.3s ease;
+    }
+
+    .cp-premium-card:hover .shoe-hd-img {
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    /* Bottom Action Button */
+    .banner-footer-area {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cta-action-btn {
+      background: #FFFFFF;
+      color: #0B0E14;
+      font-size: 14px;
+      font-weight: 900;
+      padding: 12px 24px;
+      border-radius: 30px;
+      border: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .auth-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: #B0BEC5;
+      letter-spacing: 0.5px;
+    }
+
+    /* =========================================
+       VIEW 2: PRODUCT DETAIL VIEW (ON CLICK)
+       ========================================= */
+    #detail-page-view {
+      display: none;
+      min-height: 100vh;
+      background: #FFFFFF;
+      padding-bottom: 70px;
+    }
+
+    .detail-nav-bar {
+      position: sticky;
+      top: 0;
+      background: #FFF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      border-bottom: 1px solid #EEE;
+      z-index: 100;
+    }
+
+    .detail-hero-box {
+      width: 100%;
+      height: 340px;
+      background: #FAFAFA;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .detail-hero-box img {
+      max-width: 90%;
+      max-height: 300px;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+    }
+
+    .detail-body {
+      padding: 18px 16px;
+    }
+
+    .detail-brand-name {
+      color: var(--cp-blue);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .detail-product-title {
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .detail-pricing-box {
+      border-top: 1px solid #F0F0F0;
+      border-bottom: 1px solid #F0F0F0;
+      padding: 12px 0;
+      margin-bottom: 16px;
+    }
+
+    .detail-bottom-actions {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #FFFFFF;
+      border-top: 1px solid #EAEAEA;
+      padding: 10px 14px;
+      display: flex;
+      gap: 8px;
+      z-index: 100;
+    }
+
+    .btn-cp-cart {
+      flex: 1;
+      height: 46px;
+      border: 1px solid #CCC;
+      background: #FFF;
+      font-weight: 700;
+      border-radius: 6px;
+    }
+
+    .btn-cp-buy {
+      flex: 2;
+      height: 46px;
+      border: none;
+      background: var(--cp-blue);
+      color: #FFF;
+      font-size: 15px;
+      font-weight: 800;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================
+       VIEW 1: COUPANG CLEAN HOME (TEST A ONLY)
+       ========================================= -->
+  <div id="home-page-view">
+    
+    <!-- Top Search Header -->
+    <header class="coupang-top-header">
+      <div class="top-search-row">
+        <span class="cp-logo-text">coupang</span>
+        <div class="cp-search-bar">
+          <input type="text" value="MLB 청키라이너" readonly>
+          <span class="cp-search-icon">🔍</span>
+        </div>
+        <span style="font-size: 20px;">🛒</span>
+      </div>
+    </header>
+
+    <!-- FULL FOCUS TEST A AD BANNER -->
+    <main class="banner-wrapper">
+      <div class="cp-premium-card" id="ab-test-banner">
+        
+        <!-- Header Text -->
+        <div class="banner-header-area">
+          <span class="brand-pill">MLB KOREA OFFICIAL</span>
+          <h1 class="product-model-name">청키라이너<br>빈티지 크림</h1>
+          
+          <div class="gain-headline-box">
+            <div class="gain-main-copy">
+              신는 순간 완성되는<br>키높이 비율 & 스트릿 핏
+            </div>
+            <p class="gain-sub-copy">
+              어떤 코디에도 자연스럽게 살아나는 프리미엄 스타일을 경험해보세요.
+            </p>
+          </div>
+        </div>
+
+        <!-- High Quality Shoe Visual -->
+        <div class="shoe-visual-container">
+          <img class="shoe-hd-img" 
+               src="https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e319eb3eebce124ba3f2265ee3994338086e901af16a7413d3b8ad90b1c2b84d4e718cc7c394e4e21dc31bd5ded4852a9fee6e67a9731aeee26124de6c769972f" 
+               alt="MLB Chunky Liner Vintage Cream">
+        </div>
+
+        <!-- Footer Action Button -->
+        <div class="banner-footer-area">
+          <span class="auth-badge">🛡️ 100% 정품보증</span>
+          <button class="cta-action-btn">
+            자세히 보기 〉
+          </button>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+
+  <!-- =========================================
+       VIEW 2: PRODUCT DETAIL PAGE (ON CLICK)
+       ========================================= -->
+  <div id="detail-page-view">
+    <div class="detail-nav-bar">
+      <button onclick="backToHome()" style="background:none; border:none; font-size:18px; cursor:pointer; font-weight:bold;">←</button>
+      <span style="font-weight: 800; font-size: 15px;">상품상세</span>
+      <span style="font-size: 18px;">🛒</span>
+    </div>
+
+    <div class="detail-hero-box">
+      <img src="https://st.perplexity.ai/estatic/0b226c450798410ac541646c86ec31afd840e5beab817a5d84fa821e7db61981ec84c3b4a3f072a7a2e1899c9fb06c6e319eb3eebce124ba3f2265ee3994338086e901af16a7413d3b8ad90b1c2b84d4e718cc7c394e4e21dc31bd5ded4852a9fee6e67a9731aeee26124de6c769972f" alt="MLB 청키라이너 빈티지 크림">
+    </div>
+
+    <div class="detail-body">
+      <div class="detail-brand-name">MLB KOREA OFFICIAL</div>
+      <h1 class="detail-product-title">MLB 청키라이너 베이직 빈티지 크림 뉴욕양키스</h1>
+
+      <div class="detail-pricing-box">
+        <div style="font-size: 13px; color: #888; text-decoration: line-through;">정상가 159,000원</div>
+        <div style="display:flex; align-items:baseline; gap:8px;">
+          <span style="color:var(--cp-red); font-size:24px; font-weight:900;">20%</span>
+          <span style="font-size:24px; font-weight:900; color:#111;">127,200원</span>
+        </div>
+        <div style="color:var(--cp-blue); font-size:13px; font-weight:800; margin-top:4px;">
+          🚀 로켓배송 | 내일(수) 새벽 7시 전 도착 보장
+        </div>
+      </div>
+
+      <div style="font-size: 13px; color: #444; line-height: 1.6;">
+        • <b>라인 특징</b>: 스트릿 감성의 파이핑 라인 디테일과 볼륨감 있는 실루엣<br>
+        • <b>편안한 착화감</b>: 고탄성 오픈셀 인솔 적용으로 장시간 착용에도 편안함 제공<br>
+        • <b>배송 혜택</b>: 로켓배송 / 30일 이내 무료 반품 보장
+      </div>
+    </div>
+
+    <div class="detail-bottom-actions">
+      <button class="btn-cp-cart">장바구니</button>
+      <button class="btn-cp-buy" onclick="alert('주문이 완료되었습니다. (Test A Click Conversion Recorded)')">
+        바로구매 (로켓배송)
+      </button>
+    </div>
+  </div>
+
+
+  <!-- =========================================
+       INTERACTION SCRIPT
+       ========================================= -->
+  <script>
+    var banner = document.getElementById('ab-test-banner');
+    var homeView = document.getElementById('home-page-view');
+    var detailView = document.getElementById('detail-page-view');
+
+    // Chuyển sang trang chi tiết khi bấm vào Banner Test A
+    banner.addEventListener('click', function() {
+      console.log('[A/B Test] User clicked on Test A Banner (Gain Frame)!');
+      homeView.style.display = 'none';
+      detailView.style.display = 'block';
+      window.scrollTo(0, 0);
+    });
+
+    function backToHome() {
+      detailView.style.display = 'none';
+      homeView.style.display = 'block';
+      window.scrollTo(0, 0);
+    }
+  </script>
+</body>
+</html>
